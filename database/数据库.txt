@@ -1,3 +1,4 @@
+// https://dbdiagram.io/
 // 数据库结构
 Enum usersStatus {
   normal [note: '正常']
