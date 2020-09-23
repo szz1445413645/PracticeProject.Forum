@@ -1,0 +1,178 @@
+// 数据库结构
+Enum usersStatus {
+  normal [note: '正常']
+  Deactivate [note: '停用']
+  logout [note: '注销']
+  ban [note: '封禁']
+}
+
+Table users [note: '用户表'] {
+  id int [pk,note:'主键']
+  loginName varchar [note: '登录名']
+  password varchar [note: '登录密码']
+  userName varchar [note: '用户名']
+  phone varchar [note: '电话']
+  email varchar [note: '邮箱']
+  avatar varchar [note: '头像']
+  status usersStatus [note: '用户状态']
+  lastLoginDate datetime [note: '最后一次登录时间']
+  createdDate datetime [note: '创建时间']
+  updateDate datetime [note: '更新时间']
+  deleteDate datetime [note: '删除时间']
+  isDelete byte [note: '是否删除', default: '0']
+}
+
+Table usersBan [note: '用户封禁历史'] {
+  id int [pk,note: '主键']
+  userId int [note: '用户id']
+  banTypeId int [note: '封禁类型']
+  startDate datetime [note: '封禁开始时间']
+  endDate datetime [note: '封禁结束时间']
+  duration long [note: '封禁时长（s）']
+  createdDate datetime [note: '创建时间']
+  updateDate datetime [note: '更新时间']
+  deleteDate datetime [note: '删除时间']
+  isDelete byte [note: '是否删除', default: '0']
+}
+
+Ref: usersBan.userId > users.id
+
+Table usersBanType [note: '用户封禁类型'] {
+  id int [pk,note: '主键']
+  typeName varchar [note: '类型名称']
+  description varchar [note: '类型说明']
+  duration long [note: '封禁时长（s）']
+  createdDate datetime [note: '创建时间']
+  updateDate datetime [note: '更新时间']
+  deleteDate datetime [note: '删除时间']
+  isDelete byte [note: '是否删除', default: '0']
+}
+
+Ref: usersBan.banTypeId > usersBanType.id
+
+Table loginHistory [note: '登录历史'] {
+  id int [pk,note: '主键']
+  userId int [note: '用户id']
+  IP varchar [note: '登录IP']
+  device varchar [note: '登录设备']
+  loginDate datetime [note: '登录时间']
+  createdDate datetime [note: '创建时间']
+  // updateDate datetime [note: '更新时间']
+  deleteDate datetime [note: '删除时间']
+  isDelete byte [note: '是否删除', default: '0']
+}
+
+Ref: loginHistory.userId > users.id
+
+Table news [note: '消息'] {
+  id int [pk,note: '主键']
+  // 两种方法：1.存储接收方类型，用户查询消息是使用自己的相关id查询，问题：查询时麻烦且
+  // 无法确认是否已读（可添加消息已读表）
+  // 2.只存储接收用户，问题：下发消息是麻烦，需要查询接收方所有的用户，插入对应用户消息
+  // 记录，而且消息下发后与用户绑定，与下发时选择的接收方无关
+  // userType int [note: '接收用户类型（单个用户，角色，群组）']
+  // receiveId varchar [note: '接收用户id（用户id，角色id，群组id）（多个可用,拼接）']
+  sendId int [note: '发送方Id']
+  userId int [note: '接收方id']
+  title varchar [note: '标题']
+  content varchar [note: '内容']
+  link varchar [note: '消息链接地址']
+  // 发送类型为官方相关时，删除消息，接收方不提示，非官方删除消息时，接收方收到的消息
+  // 提示已被删除
+  typeId int [note: '内容类型']
+  status int [note: '状态（未读，已读，删除，被发送方删除）']
+  createdDate datetime [note: '创建时间']
+  updateDate datetime [note: '更新时间']
+  deleteDate datetime [note: '删除时间']
+  isDelete byte [note: '是否删除', default: '0']
+}
+
+Ref: news.userId > users.id
+Ref: news.sendId > users.id
+
+// 权限待定
+Table role [note: '角色'] {
+  id int [pk,note: '主键']
+}
+
+// 群组待定
+Table group [note: '群组'] {
+  id int [pk,note: '主键']
+}
+
+// 字典待定
+Table dictionary [note: '字典'] {
+  id int [pk,note: '主键']
+}
+
+Table article [note: '帖子'] {
+  id int [pk,note: '主键']
+  userId int [note: '发送人']
+  title varchar [note: '标题']
+  content varchar [note: '内容']
+  contentType int [note: '内容类型（txt,markdown,html,word）']
+  sectionId int [note: '所属版块']
+  status int [note: '状态（正常，封禁，删除，被管理方删除）']
+  createdDate datetime [note: '创建时间']
+  updateDate datetime [note: '更新时间']
+  updateId int [note: '更新人']
+  deleteDate datetime [note: '删除时间']
+  deleteId int [note: '删除人']
+  isDelete byte [note: '是否删除', default: '0']
+}
+
+Ref: article.userId > users.id
+
+Table section [note: '版块'] {
+  id int [pk,note: '主键']
+  sectionName varchar [note: '版块名称']
+  description varchar [note: '说明']
+  parentId int [note: '父级版块']
+  createdDate datetime [note: '创建时间']
+  createId int [note: '创建人']
+  updateDate datetime [note: '更新时间']
+  updateId int [note: '更新人']
+  deleteDate datetime [note: '删除时间']
+  deleteId int [note: '删除人']
+  isDelete byte [note: '是否删除', default: '0']
+}
+
+Ref: article.sectionId > section.id
+Ref: section.parentId > section.id
+
+Table reply [note: '回复'] {
+  id int [pk,note: '主键']
+  articleId int [note: '帖子id']
+  parentId int [note: '父级回复（与帖子id相同或者为空则为一级回复）']
+  sequence long [note: '序号']
+  content varchar [note: '回复内容']
+  status int [note: '状态（正常，删除，被楼主删除）']
+  createdDate datetime [note: '创建时间']
+  createId int [note: '创建人']
+  updateDate datetime [note: '更新时间']
+  updateId int [note: '更新人']
+  deleteDate datetime [note: '删除时间']
+  deleteId int [note: '删除人']
+  isDelete byte [note: '是否删除', default: '0']
+}
+
+Ref: reply.articleId > article.id
+Ref: reply.parentId > reply.id
+
+Table modifyHistory [note: '修改历史（用户，帖子，回复..）'] {
+  id int [pk,note: '主键']
+  modifyId int [note: '修改对象id']
+  // 建立对应的类，包括：修改字段名称，旧值，新值
+  // 例：[{field:'',name:'',oldValue:'',newValue:''}]
+  typeId int [note: '修改对象类型（用户，帖子，回复..）']
+  content varchar [note: '修改内容（可以为json）']
+  createdDate datetime [note: '创建时间']
+  createId int [note: '创建人']
+  // updateDate datetime [note: '更新时间']
+  // deleteDate datetime [note: '删除时间']
+  isDelete byte [note: '是否删除', default: '0']
+}
+
+Ref: modifyHistory.modifyId > users.id
+Ref: modifyHistory.modifyId > article.id
+Ref: modifyHistory.modifyId > reply.id
