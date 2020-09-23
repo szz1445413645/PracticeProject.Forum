@@ -65,6 +65,7 @@ Table loginHistory [note: '登录历史'] {
 
 Ref: loginHistory.userId > users.id
 
+// 通知，包括系统通知，私信，帖子、评论被回复、删除、封禁
 Table news [note: '消息'] {
   id int [pk,note: '主键']
   // 两种方法：1.存储接收方类型，用户查询消息是使用自己的相关id查询，问题：查询时麻烦且
@@ -124,6 +125,7 @@ Table article [note: '帖子'] {
 
 Ref: article.userId > users.id
 
+// 类似于nga版块，贴吧不同吧
 Table section [note: '版块'] {
   id int [pk,note: '主键']
   sectionName varchar [note: '版块名称']
@@ -160,6 +162,7 @@ Table reply [note: '回复'] {
 Ref: reply.articleId > article.id
 Ref: reply.parentId > reply.id
 
+// 对用户、帖子、回复进行修改操作的历史
 Table modifyHistory [note: '修改历史（用户，帖子，回复..）'] {
   id int [pk,note: '主键']
   modifyId int [note: '修改对象id']
@@ -177,3 +180,21 @@ Table modifyHistory [note: '修改历史（用户，帖子，回复..）'] {
 Ref: modifyHistory.modifyId > users.id
 Ref: modifyHistory.modifyId > article.id
 Ref: modifyHistory.modifyId > reply.id
+
+// 对用户、帖子、回复进行删除、封禁、恢复操作的历史
+Table dealWithHistory [note: '处理历史'] {
+  id int [pk,note: '主键']
+  dealWithId int [note: '被处理对象id（）']
+  typeId int [note: '处理类型']
+  description varchar [note: '说明']
+  status int [note: '状态（删除，封禁，恢复）']
+  createdDate datetime [note: '创建时间']
+  createId int [note: '创建人']
+  // updateDate datetime [note: '更新时间']
+  // deleteDate datetime [note: '删除时间']
+  isDelete byte [note: '是否删除', default: '0']
+}
+
+Ref: dealWithHistory.dealWithId > users.id
+Ref: dealWithHistory.dealWithId > article.id
+Ref: dealWithHistory.dealWithId > reply.id
