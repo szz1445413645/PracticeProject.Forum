@@ -12,15 +12,14 @@ namespace PracticeProject.Forum
         {
             OneTimeRunner.Run(() =>
             {
-                /* You can add extension properties to DTOs
-                 * defined in the depended modules.
+                /* 您可以将扩展属性添加到从属模块中定义的DTO。
                  *
-                 * Example:
+                 * 例：
                  *
                  * ObjectExtensionManager.Instance
                  *   .AddOrUpdateProperty<IdentityRoleDto, string>("Title");
                  *
-                 * See the documentation for more:
+                 * 有关更多信息，请参见文档：
                  * https://docs.abp.io/en/abp/latest/Object-Extensions
                  */
             });

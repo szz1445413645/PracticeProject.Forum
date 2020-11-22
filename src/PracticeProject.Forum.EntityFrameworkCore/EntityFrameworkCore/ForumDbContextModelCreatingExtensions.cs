@@ -9,7 +9,7 @@ namespace PracticeProject.Forum.EntityFrameworkCore
         {
             Check.NotNull(builder, nameof(builder));
 
-            /* Configure your own tables/entities inside here */
+            /* 在此处配置您自己的表/实体 */
 
             //builder.Entity<YourEntity>(b =>
             //{

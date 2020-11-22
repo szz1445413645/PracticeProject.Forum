@@ -6,8 +6,9 @@ using Volo.Abp.Application.Services;
 
 namespace PracticeProject.Forum
 {
-    /* Inherit your application services from this class.
+    /* 从此类继承您的应用程序服务。
      */
+
     public abstract class ForumAppService : ApplicationService
     {
         protected ForumAppService()

@@ -3,8 +3,9 @@ using Volo.Abp.AspNetCore.Mvc;
 
 namespace PracticeProject.Forum.Controllers
 {
-    /* Inherit your controllers from this class.
+    /* 从此类继承您的控制器。
      */
+
     public abstract class ForumController : AbpController
     {
         protected ForumController()

@@ -12,24 +12,23 @@ using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace PracticeProject.Forum.EntityFrameworkCore
 {
-    /* This DbContext is only used for database migrations.
-     * It is not used on runtime. See ForumDbContext for the runtime DbContext.
-     * It is a unified model that includes configuration for
-     * all used modules and your application.
+    /* 此DbContext仅用于数据库迁移。
+     * 在运行时不使用它。 有关运行时DbContext，请参见ForumDbContext。
+     * 它是一个统一的模型，其中包括所有使用的模块和您的应用程序的配置。
      */
+
     public class ForumMigrationsDbContext : AbpDbContext<ForumMigrationsDbContext>
     {
-        public ForumMigrationsDbContext(DbContextOptions<ForumMigrationsDbContext> options) 
+        public ForumMigrationsDbContext(DbContextOptions<ForumMigrationsDbContext> options)
             : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            /* Include modules to your migration db context */
+            /* 将模块包含到您的迁移数据库上下文中 */
 
             builder.ConfigurePermissionManagement();
             builder.ConfigureSettingManagement();
@@ -40,7 +39,7 @@ namespace PracticeProject.Forum.EntityFrameworkCore
             builder.ConfigureFeatureManagement();
             builder.ConfigureTenantManagement();
 
-            /* Configure your own tables/entities inside the ConfigureForum method */
+            /* 在ConfigureForum方法中配置自己的表/实体 */
 
             builder.ConfigureForum();
         }

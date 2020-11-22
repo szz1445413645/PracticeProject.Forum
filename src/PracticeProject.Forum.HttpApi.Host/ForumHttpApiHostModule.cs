@@ -102,7 +102,7 @@ namespace PracticeProject.Forum
             context.Services.AddSwaggerGen(
                 options =>
                 {
-                    options.SwaggerDoc("v1", new OpenApiInfo {Title = "Forum API", Version = "v1"});
+                    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Forum API", Version = "v1" });
                     options.DocInclusionPredicate((docName, description) => true);
                 });
         }
@@ -176,7 +176,7 @@ namespace PracticeProject.Forum
             app.UseRouting();
             app.UseCors(DefaultCorsPolicyName);
             app.UseAuthentication();
-            
+
             if (MultiTenancyConsts.IsEnabled)
             {
                 app.UseMultiTenancy();
@@ -194,6 +194,12 @@ namespace PracticeProject.Forum
             app.UseAuditing();
             app.UseAbpSerilogEnrichers();
             app.UseConfiguredEndpoints();
+
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //    endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+            //});
         }
     }
 }

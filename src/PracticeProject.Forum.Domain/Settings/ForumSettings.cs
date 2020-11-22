@@ -4,7 +4,7 @@
     {
         private const string Prefix = "Forum";
 
-        //Add your own setting names here. Example:
+        // 在此处添加您自己的设置名称。 例:
         //public const string MySetting1 = Prefix + ".MySetting1";
     }
 }
