@@ -4,7 +4,7 @@
     {
         public const string GroupName = "Forum";
 
-        //Add your own permission names. Example:
+        //添加您自己的权限名称。 例:
         //public const string MyPermission1 = GroupName + ".MyPermission1";
     }
 }

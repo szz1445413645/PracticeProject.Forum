@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace PracticeProject.Forum.EntityFrameworkCore
 {
@@ -17,6 +18,14 @@ namespace PracticeProject.Forum.EntityFrameworkCore
             //    b.ConfigureByConvention(); //auto configure for the base class props
             //    //...
             //});
+
+            builder.Entity<TestTool.TestTool>(b =>
+            {
+                b.ToTable(ForumConsts.DbTablePrefix + "TestTool", ForumConsts.TestDbSchema);
+                b.ConfigureByConvention();
+
+                b.Property(_ => _.Value).IsRequired().HasMaxLength(1000);
+            });
         }
     }
 }

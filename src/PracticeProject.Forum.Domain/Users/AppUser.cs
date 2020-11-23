@@ -4,19 +4,19 @@ using Volo.Abp.Users;
 
 namespace PracticeProject.Forum.Users
 {
-    /* This entity shares the same table/collection ("AbpUsers" by default) with the
-     * IdentityUser entity of the Identity module.
+    /* 该实体与Identity模块的IdentityUser实体共享相同的表/集合（默认情况下为“ AbpUsers”）。
      *
-     * - You can define your custom properties into this class.
-     * - You never create or delete this entity, because it is Identity module's job.
-     * - You can query users from database with this entity.
-     * - You can update values of your custom properties.
+     * - 您可以在此类中定义自定义属性。
+     * - 您永远不会创建或删除该实体，因为它是Identity模块的工作。
+     * - 您可以使用该实体从数据库中查询用户。
+     * - 您可以更新自定义属性的值。
      */
+
     public class AppUser : FullAuditedAggregateRoot<Guid>, IUser
     {
         #region Base properties
 
-        /* These properties are shared with the IdentityUser entity of the Identity module.
+        /* 这些属性与Identity模块的IdentityUser实体共享。
          * Do not change these properties through this class. Instead, use Identity module
          * services (like IdentityUserManager) to change them.
          * So, this properties are designed as read only!
@@ -38,26 +38,24 @@ namespace PracticeProject.Forum.Users
 
         public virtual bool PhoneNumberConfirmed { get; private set; }
 
-        #endregion
+        #endregion Base properties
 
-        /* Add your own properties here. Example:
+        /* 在此处添加您自己的属性。 例如:
          *
          * public string MyProperty { get; set; }
          *
-         * If you add a property and using the EF Core, remember these;
+         * 如果添加属性并使用EF Core，请记住以下内容；
          *
-         * 1. Update ForumDbContext.OnModelCreating
-         * to configure the mapping for your new property
-         * 2. Update ForumEfCoreEntityExtensionMappings to extend the IdentityUser entity
-         * and add your new property to the migration.
-         * 3. Use the Add-Migration to add a new database migration.
+         * 1. 更新 ForumDbContext.OnModelCreating 配置新属性的映射
+         * 2. 更新ForumEfCoreEntityExtensionMappings以扩展IdentityUser实体，
+         * 并将新属性添加到迁移中。
+         * 3. 使用“Add-Migration”来添加新的数据库迁移。
          * 4. Run the .DbMigrator project (or use the Update-Database command) to apply
          * schema change to the database.
          */
 
         private AppUser()
         {
-            
         }
     }
 }

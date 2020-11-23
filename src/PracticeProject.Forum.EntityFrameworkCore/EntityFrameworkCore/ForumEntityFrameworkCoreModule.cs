@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PracticeProject.Forum.TestTool;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -36,9 +37,10 @@ namespace PracticeProject.Forum.EntityFrameworkCore
         {
             context.Services.AddAbpDbContext<ForumDbContext>(options =>
             {
-                /* Remove "includeAllEntities: true" to create
-                 * default repositories only for aggregate roots */
+                /* 删除“ includeAllEntities:true”以仅为聚合根创建默认存储库 */
                 options.AddDefaultRepositories(includeAllEntities: true);
+
+                options.AddRepository<TestTool.TestTool, TestToolRepository>();
             });
 
             Configure<AbpDbContextOptions>(options =>

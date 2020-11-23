@@ -22,6 +22,8 @@ namespace PracticeProject.Forum.EntityFrameworkCore
     {
         public DbSet<AppUser> Users { get; set; }
 
+        public DbSet<TestTool.TestTool> TestTool { get; set; }
+
         /* 在此处为您的聚合根/实体添加 DbSet 属性。
          * 还要在 ForumDbContextModelCreatingExtensions.ConfigureForum 中映射它们
          */
